@@ -11,6 +11,10 @@ import top.ddddddddd.springframework.beans.PropertyValues;
  */
 @SuppressWarnings({"rawtypes"})
 public class BeanDefinition {
+    String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
     //bean的Class类型
     private Class beanClass;
     //bean的属性
@@ -19,6 +23,39 @@ public class BeanDefinition {
     private String initMethodName;
     //销毁方法
     private String destroyMethodName;
+
+    private String scope = SCOPE_SINGLETON;
+
+    private boolean singleton = true;
+
+    private boolean prototype = false;
+
+    public String getScope() {
+        return scope;
+    }
+
+    //在xml注册Bean定义时，通过scope字段来判断是单例还是原型
+    public void setScope(String scope) {
+        this.scope = scope;
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
+
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+    public void setSingleton(boolean singleton) {
+        this.singleton = singleton;
+    }
+
+    public boolean isPrototype() {
+        return prototype;
+    }
+
+    public void setPrototype(boolean prototype) {
+        this.prototype = prototype;
+    }
 
     public String getInitMethodName() {
         return initMethodName;

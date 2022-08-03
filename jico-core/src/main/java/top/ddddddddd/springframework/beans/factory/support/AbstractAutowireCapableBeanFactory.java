@@ -102,28 +102,33 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @throws BeansException
      */
     @Override
-    protected Object createBean(String beanName, BeanDefinition beanDefinitio, Object[] args) throws BeansException {
+    protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean;
         try {
-            bean = createBeanInstance(beanDefinitio, beanName, args);
+            bean = createBeanInstance(beanDefinition, beanName, args);
             //给Bean填充属性
-            applyPropertyValues(beanName, bean, beanDefinitio);
+            applyPropertyValues(beanName, bean, beanDefinition);
             //执行 Bean 的初始化方法和 BeanPostProcessor的前置和后置处理方法
-            bean = initializeBean(beanName, bean, beanDefinitio);
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
 
         //注册实现了 DisposableBean 接口的 Bean对象
-        registerDisposableBeanIfNecessary(beanName,bean,beanDefinitio);
+        registerDisposableBeanIfNecessary(beanName,bean,beanDefinition);
 
-        addSingleton(beanName, bean);
+        // 判断 SCOPE_SINGLETON、SCOPE_PROTOTYPE
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
-    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinitio) {
-        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinitio.getDestroyMethodName())){
-            registerDisposableBean(beanName,new DisposableBeanAdapter(bean,beanName,beanDefinitio));
+    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // 非 Singleton 类型的 Bean 不执行销毁方法
+        if (!beanDefinition.isSingleton()) return;
+        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())){
+            registerDisposableBean(beanName,new DisposableBeanAdapter(bean,beanName,beanDefinition));
         }
     }
 

@@ -28,12 +28,9 @@ public class ApiTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springPostProcessor.xml");
         applicationContext.registerShutdownHook();
 
-        // 2. 获取Bean对象调用方法
+        // 2. 调用代理方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
-        String result = userService.queryUserInfo();
-        System.out.println("测试结果：" + result);
-        System.out.println("ApplicationContextAware："+userService.getApplicationContext());
-        System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+        System.out.println("测试结果：" + userService.queryUserInfo());
     }
 
 }
