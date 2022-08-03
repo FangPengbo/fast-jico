@@ -23,7 +23,6 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("实例化Bean完成");
         return bean;
     }
 }
