@@ -12,5 +12,7 @@ public interface SingletonBeanRegistry {
     //通过注册的beanName获取单例的Bean对象
     Object getSingleton(String beanName);
 
+    //注册单例Bean
+    void registerSingleton(String beanName, Object singletonObject);
 
 }

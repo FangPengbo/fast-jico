@@ -12,6 +12,7 @@ import top.ddddddddd.springframework.test.bean.UserDao;
 import top.ddddddddd.springframework.test.bean.UserService;
 import top.ddddddddd.springframework.test.common.MyBeanFactoryPostProcessor;
 import top.ddddddddd.springframework.test.common.MyBeanPostProcessor;
+import top.ddddddddd.springframework.test.event.CustomEvent;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,13 +25,10 @@ public class ApiTest {
 
     @Test
     public void test_BeanFactory(){
-        // 1.初始化 BeanFactory
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springPostProcessor.xml");
-        applicationContext.registerShutdownHook();
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
 
-        // 2. 调用代理方法
-        UserService userService = applicationContext.getBean("userService", UserService.class);
-        System.out.println("测试结果：" + userService.queryUserInfo());
+        applicationContext.registerShutdownHook();
     }
 
 }
