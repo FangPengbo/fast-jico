@@ -1,5 +1,6 @@
 package top.ddddddddd.springframework.test;
 
+import org.junit.Before;
 import org.junit.Test;
 import top.ddddddddd.springframework.aop.AdvisedSupport;
 import top.ddddddddd.springframework.aop.TargetSource;
@@ -29,23 +30,10 @@ public class ApiTest {
 
     @Test
     public void test_BeanFactory(){
-        // 目标对象
-        IUserService userService = new UserServiceImpl();
-        // 组装代理信息
-        AdvisedSupport advisedSupport = new AdvisedSupport();
-        advisedSupport.setTargetSource(new TargetSource(userService));
-        advisedSupport.setMethodInterceptor(new UserServiceInterceptor());
-        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* top.ddddddddd.springframework.test.bean.IUserService.*(..))"));
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
 
-        // 代理对象(JdkDynamicAopProxy)
-        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport).getProxy();
-        // 测试调用
-        System.out.println("测试结果：" + proxy_jdk.queryUserInfo());
-
-        // 代理对象(Cglib2AopProxy)
-        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
-        // 测试调用
-        System.out.println("测试结果：" + proxy_cglib.register("花花"));
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
     }
 
 }

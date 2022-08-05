@@ -10,6 +10,8 @@ import java.util.Random;
  * @Description:
  */
 public class UserServiceImpl implements IUserService{
+
+
     public String queryUserInfo() {
         try {
             Thread.sleep(new Random(1).nextInt(100));
