@@ -2,11 +2,11 @@
 <beans>
 
 
-    <bean class="top.ddddddddd.springframework.test.event.ContextRefreshedEventListener"/>
-
-    <bean class="top.ddddddddd.springframework.test.event.CustomEventListener"/>
-
-    <bean class="top.ddddddddd.springframework.test.event.ContextClosedEventListener"/>
-
+    <bean id="userService" class="top.ddddddddd.springframework.test.bean.IUserService">
+        <property name="uId" value="10001"/>
+        <property name="company" value="腾讯"/>
+        <property name="location" value="深圳"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
 
 </beans>
