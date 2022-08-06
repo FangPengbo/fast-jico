@@ -1,5 +1,7 @@
 package top.ddddddddd.springframework.test.bean;
 
+import top.ddddddddd.springframework.stereotype.Component;
+
 import java.util.Random;
 
 /**
@@ -9,8 +11,10 @@ import java.util.Random;
  * @Date: 2022/08/05/22:51
  * @Description:
  */
+@Component("userService")
 public class UserServiceImpl implements IUserService{
 
+    private String token;
 
     public String queryUserInfo() {
         try {
@@ -28,6 +32,19 @@ public class UserServiceImpl implements IUserService{
             e.printStackTrace();
         }
         return "注册用户：" + userName + " success！";
+    }
+
+    @Override
+    public String toString() {
+        return "UserService#token = { " + token + " }";
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }
