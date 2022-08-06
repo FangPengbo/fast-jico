@@ -17,9 +17,7 @@ import top.ddddddddd.springframework.beans.factory.support.DefaultListableBeanFa
 import top.ddddddddd.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import top.ddddddddd.springframework.context.support.ClassPathXmlApplicationContext;
 import top.ddddddddd.springframework.test.bean.*;
-import top.ddddddddd.springframework.test.common.MyBeanFactoryPostProcessor;
-import top.ddddddddd.springframework.test.common.MyBeanPostProcessor;
-import top.ddddddddd.springframework.test.event.CustomEvent;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,43 +30,11 @@ import java.util.List;
  * @Description:
  */
 public class ApiTest {
-
     @Test
     public void test_scan() {
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
     }
-
-    @Test
-    public void test_property() {
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-property.xml");
-        IUserService userService = applicationContext.getBean("userService", IUserService.class);
-        System.out.println("测试结果：" + userService);
-    }
-
-    @Test
-    public void test_beanPost(){
-
-        BeanPostProcessor beanPostProcessor = new BeanPostProcessor() {
-            @Override
-            public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-                return null;
-            }
-
-            @Override
-            public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-                return null;
-            }
-        };
-
-        List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
-        beanPostProcessors.add(beanPostProcessor);
-        beanPostProcessors.add(beanPostProcessor);
-        beanPostProcessors.remove(beanPostProcessor);
-
-        System.out.println(beanPostProcessors.size());
-    }
-
 
 }

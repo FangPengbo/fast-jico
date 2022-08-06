@@ -20,4 +20,7 @@ public interface BeanFactory {
     //通过beanName和Bean类型获取Bean对象
     <T> T getBean(String name, Class<T> requiredType) throws BeansException;
 
+    //通过bean类型获取Bean对象
+    <T> T getBean(Class<T> requiredType) throws BeansException;
+
 }
