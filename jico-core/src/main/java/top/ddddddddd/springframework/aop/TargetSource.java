@@ -1,5 +1,7 @@
 package top.ddddddddd.springframework.aop;
 
+import top.ddddddddd.springframework.util.ClassUtils;
+
 /**
  * 被代理的目标对象
  *
@@ -23,7 +25,10 @@ public class TargetSource {
      * @return the type of targets returned by this {@link TargetSource}
      */
     public Class<?>[] getTargetClass(){
-        return this.target.getClass().getInterfaces();
+        //判断cglib代理类
+        Class<?> aClass = this.target.getClass();
+        aClass = ClassUtils.isCglibProxyClass(aClass) ? aClass.getSuperclass() : aClass;
+        return aClass.getInterfaces();
     }
 
     /**
