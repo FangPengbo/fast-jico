@@ -2,14 +2,17 @@ package top.ddddddddd.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import top.ddddddddd.springframework.beans.BeansException;
 import top.ddddddddd.springframework.beans.PropertyValue;
 import top.ddddddddd.springframework.beans.PropertyValues;
 import top.ddddddddd.springframework.beans.factory.*;
 import top.ddddddddd.springframework.beans.factory.config.*;
+import top.ddddddddd.springframework.core.convert.ConversionService;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 /**
  * 定义注册Bean的一系列操作
@@ -255,6 +258,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     //获取这个属性在容器中的bean
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
+                }else {
+                    //属性转换
+                    Class<?> sourceType = value.getClass();
+                    Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), name);
+                    ConversionService conversionService = getConversionService();
+                    if (conversionService != null) {
+                        if (conversionService.canConvert(sourceType, targetType)) {
+                            value = conversionService.convert(value, targetType);
+                        }
+                    }
                 }
                 //属性填充
                 BeanUtil.setFieldValue(bean, name, value);

@@ -1,6 +1,8 @@
 package top.ddddddddd.springframework.beans.factory.config;
 
+import jdk.internal.jline.internal.Nullable;
 import top.ddddddddd.springframework.beans.factory.HierarchicalBeanFactory;
+import top.ddddddddd.springframework.core.convert.ConversionService;
 import top.ddddddddd.springframework.util.StringValueResolver;
 
 /**
@@ -37,4 +39,18 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      */
     String resolveEmbeddedValue(String value);
 
+
+    /**
+     * Specify a Spring 3.0 ConversionService to use for converting
+     * property values, as an alternative to JavaBeans PropertyEditors.
+     * @since 3.0
+     */
+    void setConversionService(ConversionService conversionService);
+
+    /**
+     * Return the associated ConversionService, if any.
+     * @since 3.0
+     */
+    @Nullable
+    ConversionService getConversionService();
 }
